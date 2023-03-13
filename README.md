@@ -1,66 +1,72 @@
-# dell-optiplex-3090mff-opencore
+# DELL 3090 MFF Hackintosh OpenCore EFI
 
-OpenCore for macOS mMonterey (12.5.1) on Dell OptiPlex 3090 MFF
+![image](ScreenShot/case.png)
 
-## Tutorials
+### [简体中文](README.zh_CN.md)
 
--   [折腾 7080MFF 黑苹果 OpenCore](https://www.jianshu.com/p/d7cfaae60509)
--   [3dudu/dell-optiplex-7080-hackintosh-opencore](https://github.com/3dudu/dell-optiplex-7080-hackintosh-opencore)
+### OpenCore
 
-## Usage
+[OpenCore 0.9.0](https://github.com/acidanthera/OpenCorePkg)
 
-Use `EFI` for installation and for daily use.
+### OS Version Tested
 
-## Hardware
+- macOS Monterey 12.x
+- macOS Ventura  13.x
 
--   CPU: Intel Comet Lake i5 10500T
--   Chipset: Intel Q470
--   Memory: 8G DDR4 2666 \* 2
--   iGPU: UHD 630
--   SSD: KINGSTON SNVS500G
--   Sound: ALC256
--   Ethernet: Intel I219-LM
--   Wireless / BT: BCM94360CS2
+### Hardware
 
-## Status
+- Motherboard: DELL Q470
+- Bios Version: 2.4.0
+- CPU: Intel i5-10500t
+- RAM: Samsung 2x16GB DDR4 3200
+- SSD: West Digital SN750 500G
+- iGPU: Intel UHD Graphic 630
+- Audio: Realtek ALC256
+- Ethernet Card: Realtek PCle GbE Family Controller
+- Wireless: BCM94360CS2
+- PSU: DELL 65W
 
-### Working
+### Bios Setup
 
--   HWP
--   Sleep
--   iGPU with HiDPI
--   Ethernet
--   WiFi
--   Bluetooth
--   Sound
-## BIOS
+| Name                                                | Option     |
+| --------------------------------------------------- | ---------- |
+| System Configuration → SATA Operation              | AHCI       |
+| Security → PTT Security/PTT On                     | Disabled   |
+| Secure Boot → Secure Boot Enable                   | Disabled   |
+| PSecure Boot → Secure Boot Mode                    | Audit Mode |
+| Intel Software Guard Extensions → Intel SGX Enable | Disabled   |
+| Power Management → Deep Sleep Control              | Disabled   |
+| Power Management → USB Wake Support                | Disabled   |
+| Power Management → Wake on LAN/WLAN                | Lan only   |
+| Power Management → Block Sleep                     | Disabled   |
+| POST Behavior → Fastboot                           | Minimal    |
+| Virtualization Support → VT For Direct I/O         | Disabled   |
 
-|Settings|Value|
-|----|---|
-|System Configuration → Integrated NIC | Enabled |
-|System Configuration → SATA Operation | AHCI |
-|Security → PTT Security/PTT On | Disabled |
-|Secure Boot → Secure Boot Enable | Disabled |
-|Secure Boot → Secure Boot Mode | Audit Mode |
-|Intel SGE → SGX | Disabled |
-|Performance → Intel SpeedStep | Enabled |
-|Performance → C-States Control | Enabled |
-|Performance → Turboost | Enabled |
-|Performance → HyperThread Control | Enabled |
-|Power Management → Intel Speed Shift Technology | Enabled |
-|Power Management → Deep Sleep Control | Disabled |
-|Power Management → USB Wake Support | Disabled |
-|Power Management → Wake on LAN/WLAN | Lan only |
-|Power Management → Block Sleep | Disabled |
-|POST Behavior → Fastboot | Minimal |
-|Virtualization Support → Virtualization | Enabled |
-|Virtualization Support → VT For Direct I/O | Disabled |
-|Advanced configurations → ASPM | Auto |
+### Notes
 
-## Gotchas
+- Use [OpenCore Configurator](https://mackie100projects.altervista.org/opencore-configurator/) build your own SMBIOS
+- Use [RU.efi](http://ruexe.blogspot.com/) Unlock CFG LOCK , Change DVMT = 64MB
 
-- Mostly followed [折腾 7080MFF 黑苹果 OpenCore](https://www.jianshu.com/p/d7cfaae60509) to prepare the EFI for both installation and daily running environment.
-- Modify BIOS to disable CFG Lock and enable DVMT.
+| Option   | UEFI Variable Name | Address | Default | Replace |
+| -------- | ------------------ | ------- | ------- | ------- |
+| CFG LOCK | CPUSetup           | 0x3E    | 0x1     | 0x0     |
+| DVMT     | SaSetup            | 0xF5    | 0x0     | 0x2     |
 
-## Updates
-- 2022/09/06 upgrade oc to 0.8.4;Adapt the `BCM94360CS2` wireless network card
+- Unlock CFG LOCK Address:0x3E  01 (Enabled) Replace 00（Disabled）
+  ![image](ScreenShot/RU/cpusetup.png)
+- Change DVMT Address:0xF5  00（Default） Replace 02（64MB）
+  ![image](ScreenShot/RU/sasetup.png)
+
+### ScreenShot
+
+- About This Mac
+
+![image](ScreenShot/关于本机.png)
+
+- Geekbench5 Score i5-10500T
+
+![image](ScreenShot/geekbench.png)
+
+- Ventura Beta7 (22A5342f)
+
+![image](ScreenShot/Ventura.png)
